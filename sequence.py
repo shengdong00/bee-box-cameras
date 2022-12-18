@@ -14,9 +14,10 @@ for rail in range(len(df)):
     for r in range(round_num):
         a = []
         while(len(a)<4):
-            n = random.randint(1,4)
+            n = random.randint(0, 3)
+            C = ['A', 'B', 'C', 'D']
             if n not in a:
-                a.append(n)
+                a.append(C[n])
         turn_list += a
     turn_lists.append(turn_list)
 
