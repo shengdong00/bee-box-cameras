@@ -3,7 +3,7 @@ from header import *
 import mvsdk
 
 exp_time = 20 # define exposure time (ms)
-image_path = './image_storage/'
+# image_path = './image_storage/'
 
 class Camera(object):
 	def __init__(self, DevInfo):
@@ -67,7 +67,7 @@ class Camera(object):
 		mvsdk.CameraAlignFree(self.pFrameBuffer)
 		self.pFrameBuffer = 0
 
-	def grab(self):
+	def grab(self, im_path):
 		# 从相机取一帧图片
 		hCamera = self.hCamera
 		pFrameBuffer = self.pFrameBuffer
@@ -80,7 +80,7 @@ class Camera(object):
 			# 此时图片已经存储在pFrameBuffer中，对于彩色相机pFrameBuffer=RGB数据，黑白相机pFrameBuffer=8位灰度数据
 			# 把图片保存到硬盘文件中
 			image_name = self.DevInfo.acSn.decode("utf-8")+'_'+datetime.datetime.now().strftime('%Y_%m_%d_%H_%M_%S_%f')
-			status = mvsdk.CameraSaveImage(hCamera, image_path+image_name+".bmp", pFrameBuffer, FrameHead, mvsdk.FILE_BMP_8BIT, 100) # TODO: check image type
+			status = mvsdk.CameraSaveImage(hCamera, im_path+image_name+".bmp", pFrameBuffer, FrameHead, mvsdk.FILE_BMP_8BIT, 100) # TODO: check image type
 			if status == mvsdk.CAMERA_STATUS_SUCCESS:
 				# print("Save image successfully. {}.bmp  image_size = {}X{}".format(image_name, FrameHead.iWidth, FrameHead.iHeight) )
 				print("\r","Save image successfully. {}.bmp  image_size = {}X{}".format(image_name, FrameHead.iWidth, FrameHead.iHeight), end="",flush=True)	# object为需要打印的内容
