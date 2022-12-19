@@ -17,7 +17,8 @@ def generate_mp4(path, image_list):
     four_cc = cv2.VideoWriter_fourcc(*'mp4v')
 
     cam_id = 'camID'
-    video_name = cam_id+image_list[0][-31:-4]+'-'+image_list[-1][-19:-4]
+    # video_name = cam_id+image_list[0][-31:-4]+'-'+image_list[-1][-19:-4]
+    video_name = path.split('/')[2]
     videowriter = cv2.VideoWriter('./saved_video/'+video_name+'.mp4', four_cc, frame_rate, size)
 
     for im in image_list:
