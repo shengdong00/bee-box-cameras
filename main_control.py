@@ -12,7 +12,7 @@ def main_loop():
 
 	Total_Turn = 0
 	for camID in df.index:
-		temp = len(df.loc[camID, 'turn'])
+		temp = len(list(df.loc[camID, 'turn']))
 		if Total_Turn!=0 and Total_Turn!=temp:
 			print("Total turn doesn't match in cam{}.".format(camID))
 			return
@@ -57,7 +57,7 @@ def main_loop():
 				camID = cam.DevInfo.acSn.decode("utf-8")
 				path = './image_storage/rail{}_loc{}_room{}_round{}_turn{}_cam{}/'.format(
 					str(df.loc[camID, 'rail']),
-					df.loc[camID, 'turn'][total_turn],
+					list(df.loc[camID, 'turn'])[total_turn],
 					str(df.loc[camID, 'room']),
 					str(round).zfill(3),
 					str(turn),
@@ -76,7 +76,7 @@ def main_loop():
 			camID = cam.DevInfo.acSn.decode("utf-8")
 			path = './image_storage/rail{}_loc{}_room{}_round{}_turn{}_cam{}/'.format(
 				str(df.loc[camID, 'rail']),
-				df.loc[camID, 'turn'][total_turn],
+				list(df.loc[camID, 'turn'])[total_turn],
 				str(df.loc[camID, 'room']),
 				str(round),
 				str(turn),
