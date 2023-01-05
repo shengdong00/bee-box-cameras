@@ -29,8 +29,8 @@ def main_loop():
 	print('Turning on all cameras...')
 	cams = []
 	for i, DevInfo in enumerate(DevList):
-		camID = DevInfo.acSn.decode("utf-8")
-		print("{}:  {}  rail={}  room={}".format(i, camID, df.loc[camID, 'rail'], df.loc[camID, 'room']))
+		camID = 'acSn'+DevInfo.acSn.decode("utf-8")
+		print("{}:  {}  rail={}  room={}".format(i+1, camID, df.loc[camID, 'rail'], df.loc[camID, 'room']))
 		cam = define_camera.Camera(DevList[i])
 		if cam.open():
 			cams.append(cam)
@@ -48,13 +48,14 @@ def main_loop():
 		
 		total_turn += 1
 		round = total_turn//4 + 1
-		turn = total_turn - round*4
-		print("===== round={}  turn={} =====\nProgram has been running for {}sec.".format(round, turn, turn_start-start_time()))
+		turn = total_turn - (round-1)*4
+		timer = turn_start-start_time
+		print("===== round={}  turn={} =====\nProgram has been running for {}sec.".format(round, turn, timer))
 		
-		turn_time = turn_start
+		turn_time = 0
 		while (cv2.waitKey(1) & 0xFF) != ord('q') and turn_time<15*60:
 			for cam in cams:
-				camID = cam.DevInfo.acSn.decode("utf-8")
+				camID = 'acSn'+cam.DevInfo.acSn.decode("utf-8")
 				path = './image_storage/rail{}_loc{}_room{}_round{}_turn{}_cam{}/'.format(
 					str(df.loc[camID, 'rail']),
 					list(df.loc[camID, 'turn'])[total_turn],
@@ -73,7 +74,7 @@ def main_loop():
 
 		processes = []
 		for cam in cams:
-			camID = cam.DevInfo.acSn.decode("utf-8")
+			camID = 'acSn'+cam.DevInfo.acSn.decode("utf-8")
 			path = './image_storage/rail{}_loc{}_room{}_round{}_turn{}_cam{}/'.format(
 				str(df.loc[camID, 'rail']),
 				list(df.loc[camID, 'turn'])[total_turn],
