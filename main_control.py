@@ -105,6 +105,9 @@ def main_loop():
 		wait_time = 30*60 - (time.time()-turn_start)
 		time.sleep(wait_time)
 
+	for cam in cams:
+		cam.close()
+
 
 if __name__=='__main__':
     try:
