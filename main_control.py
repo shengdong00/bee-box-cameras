@@ -38,6 +38,7 @@ def main_loop():
 		cam = define_camera.Camera(DevList[i])
 		if cam.open():
 			cams.append(cam)
+			cam.close()
 		else:
 			print('Failed to open {}'.format(camID))
 	
@@ -57,6 +58,8 @@ def main_loop():
 		print("===== round={}  turn={} =====\nProgram has been running for {}sec.".format(round, turn, timer))
 		
 		turn_time = 0
+		for cam in cams:
+			cam.open()
 		while (cv2.waitKey(1) & 0xFF) != ord('q') and turn_time<60*15:
 			for cam in cams:
 				camID = 'acSn'+cam.DevInfo.acSn.decode("utf-8")
@@ -76,6 +79,8 @@ def main_loop():
 					cv2.imshow("{} Press q to end".format(camID), frame)
 			turn_time = time.time()-turn_start
 			time.sleep(0.0999 - define_camera.exp_time/1000)
+		for cam in cams:
+			cam.close()
 
 		processes = []
 		for cam in cams:
