@@ -6,7 +6,11 @@ import define_camera
 # from sequence import location
 from generate_mp4 import generate_mp4
 
+logo = "███████     █     ███████ ███████      ██████  ███████ ███████    ██████   █████  ██   ██ ███████ ███████\n██         ███    ██      ██       ██  ██   ██ ██      ██         ██   ██ ██   ██  ██ ██  ██      ██\n███████   ██ ██   ███████ ██████       ██████  ██████  ██████     ██████  ██   ██   ███   ██████  ███████\n     ██  ███████       ██ ██       ██  ██   ██ ██      ██         ██   ██ ██   ██  ██ ██  ██           ██\n███████ ██     ██ ███████ ███████      ██████  ███████ ███████    ██████   █████  ██   ██ ███████ ███████"
+
 def main_loop():
+	print(logo)
+
 	# load datasheet
 	df = pd.read_excel('./camera_sequence.xlsx', index_col=0)
 
@@ -38,7 +42,7 @@ def main_loop():
 			print('Failed to open {}'.format(camID))
 	
 	# TODO: 等待滑轨移动到位
-	if input('Press <enter> to start.')=='':
+	if input('Press <enter> to start (once rails are in position).')=='':
 		print("Let's goooo!!!!")
 	start_time = time.time()
 
@@ -47,43 +51,43 @@ def main_loop():
 		turn_start = time.time()
 		
 		total_turn += 1
-		round = total_turn//4 + 1
+		round = (total_turn-1)//4 + 1
 		turn = total_turn - (round-1)*4
 		timer = turn_start-start_time
 		print("===== round={}  turn={} =====\nProgram has been running for {}sec.".format(round, turn, timer))
 		
 		turn_time = 0
-		while (cv2.waitKey(1) & 0xFF) != ord('q') and turn_time<15*60:
+		while (cv2.waitKey(1) & 0xFF) != ord('q') and turn_time<60*15:
 			for cam in cams:
 				camID = 'acSn'+cam.DevInfo.acSn.decode("utf-8")
-				path = './image_storage/rail{}_loc{}_room{}_round{}_turn{}_cam{}/'.format(
+				#Rail_Round_TurnLoc_Room_acSn
+				path = './image_storage/{}_{}_{}{}_{}_{}/'.format(
 					str(df.loc[camID, 'rail']),
-					list(df.loc[camID, 'turn'])[total_turn],
-					str(df.loc[camID, 'room']),
 					str(round).zfill(3),
-					str(turn),
+					str(turn), list(df.loc[camID, 'turn'])[total_turn-1],
+					str(df.loc[camID, 'room']),
 					camID
 				)
 				if not os.path.exists(path):
 					os.mkdir(path)
-				frame = cam.grab(im_path=path)
+				frame = cam.grab(path=path)
 				if frame is not None:
 					frame = cv2.resize(frame, (640,480), interpolation = cv2.INTER_LINEAR)
-					cv2.imshow("{} Press q to end".format(camID, frame))
+					cv2.imshow("{} Press q to end".format(camID), frame)
 			turn_time = time.time()-turn_start
+			time.sleep(0.0999 - define_camera.exp_time/1000)
 
 		processes = []
 		for cam in cams:
 			camID = 'acSn'+cam.DevInfo.acSn.decode("utf-8")
-			path = './image_storage/rail{}_loc{}_room{}_round{}_turn{}_cam{}/'.format(
+			#Rail_Round_TurnLoc_Room_acSn
+			path = './image_storage/{}_{}_{}{}_{}_{}/'.format(
 				str(df.loc[camID, 'rail']),
-				list(df.loc[camID, 'turn'])[total_turn],
+				str(round).zfill(3),
+				str(turn), list(df.loc[camID, 'turn'])[total_turn-1],
 				str(df.loc[camID, 'room']),
-				str(round),
-				str(turn),
 				camID
 			)
-			print("Generating video from '{}'...".format(path))
 			raw_list = os.listdir(path)
 			im_list = [i for i in raw_list if i[-4:]=='.bmp']
 			process = multiprocessing.Process(name=path, target=generate_mp4, args=(path, im_list), daemon=False)
@@ -91,9 +95,9 @@ def main_loop():
 		for pr in processes:
 			pr.start()
 		save_start = time.time()
-		save_time = save_start
+		save_time = 0
 		while(save_time<=60*14):
-			save_time = time.time()
+			save_time = time.time() - save_start
 			c = len(multiprocessing.active_children())
 			if c<=0:
 				break
@@ -102,7 +106,7 @@ def main_loop():
 			process.kill()
 			process.close()
 			print("Forced process '{}' shutdown".format(process.name))
-		wait_time = 30*60 - (time.time()-turn_start)
+		wait_time = 60*30 - (time.time()-turn_start)
 		time.sleep(wait_time)
 
 	for cam in cams:
