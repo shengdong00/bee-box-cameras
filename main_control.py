@@ -64,7 +64,7 @@ def main_loop():
 			for cam in cams:
 				camID = 'acSn'+cam.DevInfo.acSn.decode("utf-8")
 				#Rail_Round_TurnLoc_Room_acSn
-				path = './image_storage/{}_{}_{}{}_{}_{}/'.format(
+				path = 'E:/monitor_data/image_storage/{}_{}_{}{}_{}_{}/'.format(
 					str(df.loc[camID, 'rail']),
 					str(round).zfill(3),
 					str(turn), list(df.loc[camID, 'turn'])[total_turn-1],
@@ -86,7 +86,7 @@ def main_loop():
 		for cam in cams:
 			camID = 'acSn'+cam.DevInfo.acSn.decode("utf-8")
 			#Rail_Round_TurnLoc_Room_acSn
-			path = './image_storage/{}_{}_{}{}_{}_{}/'.format(
+			path = 'E:/monitor_data/image_storage/{}_{}_{}{}_{}_{}/'.format(
 				str(df.loc[camID, 'rail']),
 				str(round).zfill(3),
 				str(turn), list(df.loc[camID, 'turn'])[total_turn-1],

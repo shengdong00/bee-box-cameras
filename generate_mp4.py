@@ -19,9 +19,9 @@ def generate_mp4(path, image_list):
     # cam_id = 'camID'
     # video_name = cam_id+image_list[0][-31:-4]+'-'+image_list[-1][-19:-4]
     video_name = path.split('/')[2]
-    if not os.path.exists('./saved_video/'):
-        os.mkdir('./saved_video/')
-    videowriter = cv2.VideoWriter('./saved_video/'+video_name+'.mp4', four_cc, frame_rate, size)
+    if not os.path.exists('E:/monitor_data/saved_video/'):
+        os.mkdir('E:/monitor_data/saved_video/')
+    videowriter = cv2.VideoWriter('E:/monitor_data/saved_video/'+video_name+'.mp4', four_cc, frame_rate, size)
 
     for im in image_list:
         img = cv2.imread(path+im)
