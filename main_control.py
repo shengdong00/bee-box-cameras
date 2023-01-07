@@ -4,7 +4,7 @@ from header import *
 import mvsdk
 import define_camera
 # from sequence import location
-from generate_mp4 import generate_mp4
+from generate_mp4 import generate_mp4, get_total_sec
 
 logo = "███████     █     ███████ ███████      ██████  ███████ ███████    ██████   █████  ██   ██ ███████ ███████\n██         ███    ██      ██       ██  ██   ██ ██      ██         ██   ██ ██   ██  ██ ██  ██      ██\n███████   ██ ██   ███████ ██████       ██████  ██████  ██████     ██████  ██   ██   ███   ██████  ███████\n     ██  ███████       ██ ██       ██  ██   ██ ██      ██         ██   ██ ██   ██  ██ ██  ██           ██\n███████ ██     ██ ███████ ███████      ██████  ███████ ███████    ██████   █████  ██   ██ ███████ ███████"
 
