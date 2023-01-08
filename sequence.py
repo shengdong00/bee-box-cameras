@@ -72,12 +72,6 @@ for camID in df.index:
                 row_num, row_num, int(rest_time)
             )
             content += row
-    row_num += 1
-    loc = turn_list[0]
-    row = '{} 绝对位置 {} X: {} Y: {} F: {} null null null null null null\n'.format(
-        row_num, row_num, loc_pos[loc], loc_pos[loc], vel
-    )
-    content += row
 
     file_name = 'rail{}_room{}_{}.txt'.format(
         df.loc[camID, 'rail'], df.loc[camID, 'room'], camID
