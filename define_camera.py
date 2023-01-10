@@ -79,7 +79,7 @@ class Camera(object):
 			# 此时图片已经存储在pFrameBuffer中，对于彩色相机pFrameBuffer=RGB数据，黑白相机pFrameBuffer=8位灰度数据
 			# 把图片保存到硬盘文件中
 			image_name = self.DevInfo.acSn.decode("utf-8")+'_'+datetime.datetime.now().strftime('%Y_%m_%d_%H_%M_%S_%f')
-			status = mvsdk.CameraSaveImage(hCamera, "{}/{}.bmp".format(path, image_name), pFrameBuffer, FrameHead, mvsdk.FILE_BMP, 100)
+			status = mvsdk.CameraSaveImage(hCamera, "{}/{}.bmp".format(path, image_name), pFrameBuffer, FrameHead, mvsdk.FILE_BMP_8BIT, 100)
 			if status == mvsdk.CAMERA_STATUS_SUCCESS:
 				print("\rSave image successfully. image_size = {}X{}  {}".format(FrameHead.iWidth, FrameHead.iHeight, image_name), end='' )
 			else:
