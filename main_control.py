@@ -78,7 +78,7 @@ def main_loop():
 					frame = cv2.resize(frame, (640,480), interpolation = cv2.INTER_LINEAR)
 					cv2.imshow("{} Press q to end".format(camID), frame)
 			turn_time = time.time()-turn_start
-			time.sleep(0.0999 - define_camera.exp_time/1000)
+			time.sleep(0.07 - define_camera.exp_time/1000)
 		for cam in cams:
 			cam.close()
 
