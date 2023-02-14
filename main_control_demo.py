@@ -60,7 +60,7 @@ def main_loop():
 		turn_time = 0
 		for cam in cams:
 			cam.open()
-		while (cv2.waitKey(1) & 0xFF) != ord('q') and turn_time<60*1:
+		while (cv2.waitKey(1) & 0xFF) != ord('q') and turn_time<60*2:
 			for cam in cams:
 				camID = 'acSn'+cam.DevInfo.acSn.decode("utf-8")
 				#Rail_Round_TurnLoc_Room_acSn
@@ -101,7 +101,7 @@ def main_loop():
 			pr.start()
 		save_start = time.time()
 		save_time = 0
-		while(save_time<=60*0.9):
+		while(save_time<=60*1.9):
 			save_time = time.time() - save_start
 			c = len(multiprocessing.active_children())
 			if c<=0:
@@ -111,7 +111,7 @@ def main_loop():
 			process.kill()
 			process.close()
 			print("Forced process '{}' shutdown".format(process.name))
-		wait_time = 60*2 - (time.time()-turn_start)
+		wait_time = 60*4 - (time.time()-turn_start)
 		time.sleep(wait_time)
 
 	for cam in cams:
