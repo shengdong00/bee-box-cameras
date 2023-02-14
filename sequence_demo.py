@@ -8,7 +8,7 @@ import numpy as np
 
 df = pd.read_excel('./camera_sequence.xlsx', index_col=0)
 
-round_num = 500000 # 12(round/d)*x(d)
+round_num = 200 # 12(round/d)*x(d)
 
 turn_lists = []
 for rail in range(int(len(df)/2)):
