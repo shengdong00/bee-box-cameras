@@ -52,15 +52,15 @@ def main_loop():
 		turn_start = time.time()
 		
 		total_turn += 1
-		round = (total_turn-1)//4 + 1
-		turn = total_turn - (round-1)*4
+		round = (total_turn-1)//5 + 1
+		turn = total_turn - (round-1)*5
 		timer = turn_start-start_time
 		print("===== round={}  turn={} =====\nProgram has been running for {}sec.".format(round, turn, timer))
 		
 		turn_time = 0
 		for cam in cams:
 			cam.open()
-		while (cv2.waitKey(1) & 0xFF) != ord('q') and turn_time<60*15:
+		while (cv2.waitKey(1) & 0xFF) != ord('q') and turn_time<60*12:
 			for cam in cams:
 				camID = 'acSn'+cam.DevInfo.acSn.decode("utf-8")
 				#Rail_Round_TurnLoc_Room_acSn
@@ -101,7 +101,7 @@ def main_loop():
 			pr.start()
 		save_start = time.time()
 		save_time = 0
-		while(save_time<=60*14):
+		while(save_time<=60*11):
 			save_time = time.time() - save_start
 			c = len(multiprocessing.active_children())
 			if c<=0:
@@ -111,7 +111,7 @@ def main_loop():
 			process.kill()
 			process.close()
 			print("Forced process '{}' shutdown".format(process.name))
-		wait_time = 60*30 - (time.time()-turn_start)
+		wait_time = 60*24 - (time.time()-turn_start)
 		time.sleep(wait_time)
 
 	for cam in cams:
