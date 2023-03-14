@@ -5,10 +5,11 @@ import os
 import numpy as np
 
 # NOTE: the './camera_sequence.xlsx' will be overwritten everytime you run this script
+# NOTE: camera and rail sequences have been fixed to './camera_sequence_fixed.xlsx'.
 
 df = pd.read_excel('./camera_sequence.xlsx', index_col=0)
 
-round_num = 12*21 # 12(round/d)*x(d)
+round_num = 12*60 # 12(round/d)*x(d)
 
 random.seed(2023)
 

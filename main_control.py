@@ -12,7 +12,7 @@ def main_loop():
 	print(logo)
 
 	# load datasheet
-	df = pd.read_excel('./camera_sequence.xlsx', index_col=0)
+	df = pd.read_excel('./camera_sequence_fixed.xlsx', index_col=0)
 
 	Total_Turn = 0
 	for camID in df.index:
